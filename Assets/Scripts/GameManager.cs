@@ -51,7 +51,26 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         startPosition = scpRigidbody.position;
-        StartGame();
+
+        Invoke(nameof(StartGame), 1f);
+    }
+
+     public void StartGame()
+    {
+        sequenceList.Clear();
+
+        positionInSequence = 0;
+        inputInSequence = 0;
+
+        colorSelect = Random.Range(0, colors.Length);
+
+        sequenceList.Add(colorSelect);
+
+        colors[sequenceList[positionInSequence]].color = new Color(colors[sequenceList[positionInSequence]].color.r, colors[sequenceList[positionInSequence]].color.g, colors[sequenceList[positionInSequence]].color.b, 1f);
+        beeps[sequenceList[positionInSequence]].Play();
+
+        stayLitCounter = stayLit;
+        shouldBeLit = true;
     }
 
     private void Update()
@@ -100,23 +119,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
-    {
-        sequenceList.Clear();
-
-        positionInSequence = 0;
-        inputInSequence = 0;
-
-        colorSelect = Random.Range(0, colors.Length);
-
-        sequenceList.Add(colorSelect);
-
-        colors[sequenceList[positionInSequence]].color = new Color(colors[sequenceList[positionInSequence]].color.r, colors[sequenceList[positionInSequence]].color.g, colors[sequenceList[positionInSequence]].color.b, 1f);
-        beeps[sequenceList[positionInSequence]].Play();
-
-        stayLitCounter = stayLit;
-        shouldBeLit = true;
-    }
+   
 
     public void colorInput(int whichButton)
     {

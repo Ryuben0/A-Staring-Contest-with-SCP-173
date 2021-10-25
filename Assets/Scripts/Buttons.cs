@@ -35,8 +35,7 @@ public class Buttons : MonoBehaviour
                 Collider2D touchedCollider = Physics2D.OverlapPoint(touchPosition);
                 if (_collider == touchedCollider)
                 {
-                    _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1f);
-                    buttonBeep.Play();
+                    OnButtonClicked();
                 }
             }
 
@@ -45,24 +44,58 @@ public class Buttons : MonoBehaviour
                 Collider2D touchedCollider = Physics2D.OverlapPoint(touchPosition);
                 if (_collider == touchedCollider)
                 {
-                    _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, .5f);
-                    buttonBeep.Stop();
-                    _gameManager.colorInput(buttonNumber);
+                    OnButtonReleased();
                 }
             }
+        } 
+        else 
+        {
+            Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);    
+            if (Input.GetMouseButton(0))
+            {
+
+                if(Input.GetMouseButtonDown(0))
+                {
+                    Collider2D touchedCollider = Physics2D.OverlapPoint(touchPosition);
+                    if (_collider == touchedCollider)
+                    {
+                        OnButtonClicked();
+                    }
+                }                
+            } 
+            else if (Input.GetMouseButtonUp(0))
+            {
+                Collider2D touchedCollider = Physics2D.OverlapPoint(touchPosition);
+                if (_collider == touchedCollider)
+                {
+                    OnButtonReleased();
+                }
+            }  
         }
     }
 
-    public void OnMouseDown()
+    // public void OnMouseDown()
+    // {
+    //     OnButtonClicked();
+    // }
+
+    // public void OnMouseUp()
+    // {
+    //     OnButtonReleased();
+    // }
+
+    void OnButtonClicked()
     {
         _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1f);
         buttonBeep.Play();
+        //Debug.Log(buttonNumber + " was clicked");
     }
 
-    public void OnMouseUp()
+    void OnButtonReleased()
     {
         _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, .5f);
         buttonBeep.Stop();
         _gameManager.colorInput(buttonNumber);
+        //Debug.Log(buttonNumber + " was released");
     }
 }
